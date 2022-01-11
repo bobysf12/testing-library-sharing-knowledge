@@ -1,24 +1,30 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import "./App.css";
+import { DiaryEntryForm } from "./DiaryEntryForm";
+import { DiaryEntryList } from "./DiaryEntryList";
+import { DiaryEntry } from "./types";
 
 function App() {
+  const [diaryEntries, setDiaryEntries] = useState<DiaryEntry[]>([]);
+
+  const addEntry = (newEntry: Omit<DiaryEntry, "id">) => {
+    setDiaryEntries((prevEntries) => [
+      { ...newEntry, id: Date.now() },
+      ...prevEntries,
+    ]);
+  };
+
+  const removeEntry = (id: number) => {
+    setDiaryEntries((prevEntries) =>
+      prevEntries.filter((entry) => entry.id !== id)
+    );
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Diary Entry Tracker</h1>
+      <DiaryEntryForm onSave={addEntry} />
+      <DiaryEntryList diaryEntries={diaryEntries} onDelete={removeEntry} />
     </div>
   );
 }
