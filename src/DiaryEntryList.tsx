@@ -17,7 +17,7 @@ type Props = {
 
 export const DiaryEntryList = ({ diaryEntries, onDelete }: Props) => {
   return (
-    <List>
+    <List role="list" aria-label="diary entry list">
       {diaryEntries.map((entry) => (
         <DiaryEntryCard entry={entry} onDelete={onDelete} key={entry.id} />
       ))}
@@ -57,7 +57,7 @@ const DiaryEntryCard = ({
   onDelete: (id: number) => void;
 }) => {
   return (
-    <ListItem>
+    <ListItem role="listitem">
       <div>
         <Title>{entry.title}</Title>
         <Description>{entry.description}</Description>

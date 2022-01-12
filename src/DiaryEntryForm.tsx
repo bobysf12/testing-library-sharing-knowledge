@@ -53,7 +53,7 @@ export const DiaryEntryForm = ({ onSave }: Props) => {
   };
   return (
     <Paper>
-      <Form onSubmit={handleSubmit}>
+      <Form data-testid="diary-entry-form" onSubmit={handleSubmit}>
         <FormGroup>
           <FormLabel htmlFor="title">Title</FormLabel>
           <Input
@@ -73,7 +73,7 @@ export const DiaryEntryForm = ({ onSave }: Props) => {
             onChange={(evt) => setDescription(evt.currentTarget.value)}
           />
         </FormGroup>
-        <Button>Add new entry</Button>
+        <Button type="submit">Add new entry</Button>
       </Form>
     </Paper>
   );
