@@ -29,7 +29,7 @@ it("should show diary entry list container", () => {
   expect(listEl).toBeInTheDocument();
 });
 
-it("should be able to create and remove diary entry", () => {
+it("should be able to create diary entry", () => {
   render(<App />);
 
   const title = "This is title";
