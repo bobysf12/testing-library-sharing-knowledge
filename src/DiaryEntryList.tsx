@@ -62,7 +62,12 @@ const DiaryEntryCard = ({
         <Title>{entry.title}</Title>
         <Description>{entry.description}</Description>
       </div>
-      <DeleteButton onClick={() => onDelete(entry.id)}>Delete</DeleteButton>
+      <DeleteButton
+        data-testid={"delete-" + entry.id.toString()}
+        onClick={() => onDelete(entry.id)}
+      >
+        Delete
+      </DeleteButton>
     </ListItem>
   );
 };
