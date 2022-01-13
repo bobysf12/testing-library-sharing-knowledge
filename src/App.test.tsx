@@ -1,6 +1,8 @@
 import { fireEvent, render, screen, within } from "@testing-library/react";
 import React from "react";
 import App from "./App";
+import { DiaryEntry } from "./types";
+import * as helpers from "./helpers";
 
 it("should show title", () => {
   render(<App />);
@@ -53,37 +55,37 @@ it("should be able to create and remove diary entry", () => {
 
   fireEvent.click(saveBtn);
 
-  // Check if the new entry is shown in the list
-  const diaryEntryListEl = screen.getByRole("list", {
-    name: "diary entry list",
-  });
-
   // (OPTIONAL) Use `within` API to check whether the element is rendered within the list
   // https://testing-library.com/docs/dom-testing-library/api-within
-  expect(within(diaryEntryListEl).queryByText(title)).toBeInTheDocument();
-  expect(within(diaryEntryListEl).queryByText(description)).toBeInTheDocument();
-  expect(
-    within(diaryEntryListEl).queryByRole("button", { name: "Delete" })
-  ).toBeInTheDocument();
+  expect(screen.queryByText(title)).toBeInTheDocument();
+  expect(screen.queryByText(description)).toBeInTheDocument();
 
   // Check if inputs are reset
   expect(titleInput).toHaveValue("");
   expect(descriptionInput).toHaveValue("");
+});
 
-  // Try to remove the new entry
-  const deleteBtn = within(diaryEntryListEl).getByRole("button", {
-    name: "Delete",
-  });
-  fireEvent.click(deleteBtn);
+it("shoudl be able to delete entry", () => {
+  const mockEntries: DiaryEntry[] = [
+    { id: 1, title: "Entry1", description: "Entry desc1" },
+    { id: 2, title: "Entry2", description: "Entry desc2" },
+  ];
+
+  const loadDiaryEntriesSpy = jest
+    .spyOn(helpers, "loadDiaryEntries")
+    .mockReturnValue(mockEntries);
+
+  render(<App />);
+
+  const deleteBtns = screen.getAllByRole("button", { name: "Delete" });
+
+  fireEvent.click(deleteBtns[0]);
 
   // The entry should be gone
-  expect(within(diaryEntryListEl).queryByText(title)).not.toBeInTheDocument();
-  expect(
-    within(diaryEntryListEl).queryByText(description)
-  ).not.toBeInTheDocument();
-  expect(
-    within(diaryEntryListEl).queryByRole("button", { name: "Delete" })
-  ).not.toBeInTheDocument();
+  expect(screen.queryByText(mockEntries[0].title)).not.toBeInTheDocument();
+  expect(screen.queryByText(mockEntries[1].title)).toBeInTheDocument();
+
+  loadDiaryEntriesSpy.mockRestore();
 });
 
 // HOMEWORK: Add validations to the diary entry form
