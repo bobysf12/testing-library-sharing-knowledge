@@ -2,10 +2,13 @@ import { useState } from "react";
 import "./App.css";
 import { DiaryEntryForm } from "./DiaryEntryForm";
 import { DiaryEntryList } from "./DiaryEntryList";
+import { loadDiaryEntries } from "./helpers";
 import { DiaryEntry } from "./types";
 
 function App() {
-  const [diaryEntries, setDiaryEntries] = useState<DiaryEntry[]>([]);
+  const [diaryEntries, setDiaryEntries] = useState<DiaryEntry[]>(
+    loadDiaryEntries()
+  );
 
   const addEntry = (newEntry: Omit<DiaryEntry, "id">) => {
     setDiaryEntries((prevEntries) => [

@@ -57,7 +57,7 @@ const DiaryEntryCard = ({
   onDelete: (id: number) => void;
 }) => {
   return (
-    <ListItem>
+    <ListItem role="listitem">
       <div>
         <Title>{entry.title}</Title>
         <Description>{entry.description}</Description>
